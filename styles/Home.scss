@@ -1,0 +1,106 @@
+header {
+  height: 70px;
+  display: flex;
+  padding: 10px;
+  div, a {
+    padding: 10px;
+  }
+  div.leftBox {
+    display: flex;
+    font-size: 20px;
+    img.dark {
+    }
+}
+
+  div.rightBox {
+    margin-left: auto;
+    div {
+      display: inline-block;
+      font-size: 15px;
+    }
+  }
+}
+
+.rotateWrap {
+  // width: 100%;
+  // object-fit: contain;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  // transform: rotate(630deg);
+}
+
+.rotateAllBtn, .removePDF, .downloadBtn {
+
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  appearance: none;
+  position: relative;
+  cursor: pointer;
+  text-align: center;
+  line-height: normal;
+  white-space: nowrap;
+  margin: 0px;
+  padding: 10px 12px;
+  width: 100%;
+  color: rgb(255, 255, 255);
+  background: rgb(255, 97, 47);
+  font-family: var(--sans);
+  font-weight: 500;
+  font-style: normal;
+  font-size: 16px;
+  border-radius: 4px;
+  border: none;
+  
+}
+
+canvas {
+  width: 100% !important;
+  height: auto !important;
+}
+main {
+  padding: 0 80px;
+  div.title {
+  }
+
+  div.subtitle {
+  }
+
+  div.uploader {
+  }
+}
+
+footer {
+  padding-top: 64px;
+  div.footerLeftBox {
+    img.dark:invert {
+    }
+
+    div.text {
+    }
+
+    div.extLinks {
+      a {
+        img.dark:invert {
+        }
+      }
+    }
+  }
+
+  div {
+    div.box {
+      h3 {
+      }
+
+      ul {
+        li {
+          a {
+          }
+        }
+      }
+    }
+  }
+}
