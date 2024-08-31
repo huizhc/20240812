@@ -1,37 +1,29 @@
 "use client";
 
 import { Document, Page, pdfjs } from "react-pdf";
+import { PDFDocument, degrees } from "pdf-lib";
 import Image from "next/image";
 import "../styles/Home.scss";
-import { useEffect, useRef, useState } from "react";
-import { PDFDocument, degrees } from "pdf-lib";
+import { useEffect, useState } from "react";
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.mjs",
-  import.meta.url
-).toString();
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 export default function Home() {
-  const [numPages, setNumPages] = useState(null);
+  const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState(0);
-  const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState(null);
-  const [rotate, setRotate] = useState([]);
+  const [file, setFile] = useState<File | null>(null);
+  const [fileName, setFileName] = useState<string | null>(null);
+  const [rotate, setRotate] = useState<number[]>([]);
   const [pageWidth, setPageWidth] = useState(300);
-  const ref = useRef(null);
 
-  useEffect(() => {
-    // console.log(ref, "refref")
-  }, []);
 
-  function onDocumentLoadSuccess({ numPages, ...rest }) {
-    console.log(rest, "rest");
-
+  function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
     setRotate(new Array(numPages).fill(0));
   }
 
-  function readFileAsync(file) {
+  function readFileAsync(file: File) {
     return new Promise((resolve, reject) => {
       let reader = new FileReader();
       reader.onload = () => {
@@ -53,7 +45,7 @@ export default function Home() {
     }
   }
 
-  const pageRotate = (current) => {
+  const pageRotate = (current: number) => {
     let tmp = [...rotate];
     tmp[current] = tmp[current] + 90;
     setRotate(tmp);
@@ -76,7 +68,9 @@ export default function Home() {
   };
 
   const download = async () => {
-    const pdfDoc = await PDFDocument.load(await readFileAsync(file));
+    const pdfDoc = await PDFDocument.load(
+      (await readFileAsync(file as File)) as ArrayBuffer
+    );
 
     const pages = pdfDoc.getPages();
 
@@ -89,7 +83,7 @@ export default function Home() {
     saveByteArray(fileName + "(rotated).pdf", await pdfDoc.save());
   };
 
-  const saveByteArray = (reportName, byte) => {
+  const saveByteArray = (reportName: string, byte: ArrayBuffer) => {
     var blob = new Blob([byte], { type: "application/pdf" });
     var link = document.createElement("a");
     link.href = window.URL.createObjectURL(blob);
@@ -106,18 +100,10 @@ export default function Home() {
           PDF.ai
         </div>
         <div className="rightBox">
-          <a className="hover:underline" to="javascript:;">
-            Pricing
-          </a>
-          <a className="hover:underline" to="javascript:;">
-            Chrome extension
-          </a>
-          <a className="hover:underline" to="javascript:;">
-            Use cases
-          </a>
-          <a className="hover:underline" to="javascript:;">
-            Get started →
-          </a>
+          <a className="hover:underline">Pricing</a>
+          <a className="hover:underline">Chrome extension</a>
+          <a className="hover:underline">Use cases</a>
+          <a className="hover:underline">Get started →</a>
         </div>
       </header>
       <div className="bg-[#f7f5ee] text-black">
@@ -221,6 +207,7 @@ export default function Home() {
                     onClick={() => {
                       pageRotate(index);
                     }}
+                    key={index}
                   >
                     <div
                       className="relative cursor-pointer pdf-page"
@@ -252,7 +239,6 @@ export default function Home() {
                               renderMode="canvas"
                               renderAnnotationLayer={false}
                               renderTextLayer={false}
-                              canvasRef={ref}
                             />
                           </div>
                           <div className="w-[90%] text-center shrink-0 text-xs italic overflow-hidden text-ellipsis whitespace-nowrap">
