@@ -57,6 +57,27 @@ header {
   
 }
 
+.loading {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #000;
+  border-top-color: transparent;
+  border-radius: 100%;
+
+  animation: circle infinite 0.75s linear;
+}
+
+// 转转转动画
+@keyframes circle {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
 canvas {
   width: 100% !important;
   height: auto !important;
