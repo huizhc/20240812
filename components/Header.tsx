@@ -3,7 +3,6 @@
 import Image from "next/image";
 import HamburgerSvg from "../public/Hamburger.svg";
 import CloseSvg from "../public/close.svg";
-import LogoSvg from "../public/logo.svg";
 import { useState } from "react";
 
 export default function Header() {
@@ -16,7 +15,7 @@ export default function Header() {
   return (
     <header>
       <div className="leftBox">
-        <LogoSvg width={32} height={18} />
+        <Image src="/logo.svg" alt="logo" width={32} height={18} priority />
         PDF.ai
       </div>
       <div className="rightBox hide-mobile">
