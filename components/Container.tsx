@@ -11,6 +11,9 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   import.meta.url
 ).toString();
 
+const viewWidthMax = 500
+const viewWidthMin = 100
+
 export default function Container() {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [file, setFile] = useState<File | null>(null);
@@ -26,6 +29,7 @@ export default function Container() {
   };
 
   const onDocumentLoadError = () => {
+    window.alert("请上传正确的PDF文件")
     setLoading(false)
     setFile(null)
     setFileName(null)
@@ -67,12 +71,12 @@ export default function Container() {
   };
 
   const zoomIn = () => {
-    if (viewWidth >= 500) return;
+    if (viewWidth >= viewWidthMax) return;
     setViewWidth(viewWidth + 50);
   };
 
   const zoomOut = () => {
-    if (viewWidth <= 100) return;
+    if (viewWidth <= viewWidthMin) return;
     setViewWidth(viewWidth - 50);
   };
 
@@ -170,7 +174,7 @@ export default function Container() {
                   data-microtip-position="top"
                   role="tooltip"
                   onClick={zoomIn}
-                  disabled={viewWidth <= 100}
+                  disabled={viewWidth >= viewWidthMax}
                 >
                   <Image
                     src="/zoomIn.svg"
@@ -186,7 +190,7 @@ export default function Container() {
                   data-microtip-position="top"
                   role="tooltip"
                   onClick={zoomOut}
-                  disabled={viewWidth >= 500}
+                  disabled={viewWidth <= viewWidthMin}
                 >
                   <Image
                     src="/zoomOut.svg"
