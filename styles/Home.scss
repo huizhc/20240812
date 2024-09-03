@@ -19,15 +19,35 @@ header {
       font-size: 15px;
     }
   }
+
+  .foldBox {
+    box-sizing: border-box;
+    padding: 10;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: normal;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    height: auto;
+    background: rgb(255, 255, 255);
+    border-top: 1px solid rgb(229, 227, 218);
+    transition: 0.1s;
+    opacity: 1;
+    pointer-events: all;
+    display: flex;
+    flex-direction: column;
+    a {
+      padding: 10px;
+    }
+  }
 }
 
 .rotateWrap {
-  // width: 100%;
-  // object-fit: contain;
   transition-property: transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
-  // transform: rotate(630deg);
 }
 
 .rotateAllBtn, .removePDF, .downloadBtn {
