@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { degrees, PDFDocument } from "pdf-lib";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import RotateSvg from "../public/rotate.svg";
 
@@ -23,10 +23,11 @@ export default function Container() {
   const [rotate, setRotate] = useState<number[]>([]);
   const [viewWidth, setViewWidth] = useState(300);
   const [loading, setLoading] = useState(false);
+  const renderCount = useRef(0);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
-    setLoading(false);
     setNumPages(numPages);
+    renderCount.current = 0;
     setRotate(new Array(numPages).fill(0));
   };
 
@@ -35,6 +36,12 @@ export default function Container() {
     setLoading(false);
     setFile(null);
     setFileName(null);
+  };
+
+  const onPageRenderSuccess = () => {
+    if (++renderCount.current === numPages) {
+      setLoading(false);
+    }
   };
 
   const readFileAsync = (file: File) => {
@@ -154,6 +161,7 @@ export default function Container() {
             </div>
           ) : (
             <>
+              {loading && <div className="loading"></div>}
               {!loading && (
                 <div className="flex justify-center items-center space-x-3 selecto-ignore">
                   <button
@@ -209,8 +217,11 @@ export default function Container() {
                 file={file}
                 onLoadSuccess={onDocumentLoadSuccess}
                 onLoadError={onDocumentLoadError}
-                loading={<div className="loading"></div>}
-                className="flex flex-wrap justify-center"
+                loading=""
+                className={
+                  "flex flex-wrap justify-center" +
+                  (loading ? " h-0 overflow-hidden" : "")
+                }
               >
                 {Array.from(new Array(numPages), (el, index) => (
                   <div
@@ -247,6 +258,7 @@ export default function Container() {
                               renderMode="canvas"
                               renderAnnotationLayer={false}
                               renderTextLayer={false}
+                              onRenderSuccess={onPageRenderSuccess}
                             />
                           </div>
                           <div className="w-[90%] text-center shrink-0 text-xs italic overflow-hidden text-ellipsis whitespace-nowrap">
