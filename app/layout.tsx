@@ -1,6 +1,6 @@
-import BaiDuAnalytics from "@/components/BaiDuAnalytics";
-import GoogleAnalytics from "@/components/GoogleAnalytics";
-import { siteConfig } from "@/config/site";
+import BaiDuAnalytics from "../components/BaiDuAnalytics";
+import GoogleAnalytics from "../components/GoogleAnalytics";
+import { siteConfig } from "../config/site";
 import type { Metadata } from "next";
 import "./globals.css";
 
